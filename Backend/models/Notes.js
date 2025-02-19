@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose'
+import mongoose,{ Schema, model } from 'mongoose'
 const notesSchema = new Schema({
-    name: {
+    title: {
         type: String,
         required: true
     },
@@ -10,6 +10,10 @@ const notesSchema = new Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId, ref: 'User',
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now
     }
 }, { timestamps: true })
 

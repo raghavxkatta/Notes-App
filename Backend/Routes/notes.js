@@ -1,22 +1,30 @@
 import express from 'express'
 const router=express.Router()
-import Note from '../models/Notes'
+import Note from '../models/Notes.js'
 
 /* To create a new note */
-router.post('/' ,async(req,res)=>{
-    const {title,content}=req.body
-    try{
-        const newNote= new Note({
-            title,
-            content
-        })
-        await newNote.save()
-        res.status(201).json(newNote)
+router.post('/', async (req, res) => {
+    const { title, content } = req.body;
+
+    try {
+        // Checking if body is an array or single object
+        if (Array.isArray(req.body)) {
+            // Insert multiple notes
+            const newNotes = await Note.insertMany(req.body);
+            res.status(201).json(newNotes);
+        } else {
+            // Create a single note
+            const newNote = new Note({
+                title,
+                content
+            });
+            await newNote.save();
+            res.status(201).json(newNote);
+        }
+    } catch (err) {
+        res.status(400).json({ message: 'Error creating notes', error: err.message });
     }
-    catch(err){
-        res.status(400).json({message:'Error creating a Note', error:err.message})
-    }
-})
+});
 
 /* To read All Notes */
 router.get('/', async(req,res)=>{
@@ -78,3 +86,5 @@ router.delete('/:id',async(req,res)=>{
     }
     
 })
+
+export default router
