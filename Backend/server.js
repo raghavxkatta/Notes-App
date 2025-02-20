@@ -5,6 +5,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';  
 const app=express()
+
 import notesRoutes from './Routes/notes.js'
 
 // Connect to MongoDB
