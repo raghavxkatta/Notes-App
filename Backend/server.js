@@ -7,12 +7,12 @@ import process from 'process';
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';  
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-import User from './Models/User.js';
 import notesRoutes from './Routes/notes.js'
-
+const passport = require('passport');
+const User = require('./Models/User.js')
 const app=express()
+
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB Connected'))
@@ -26,49 +26,23 @@ mongoose.connect(process.env.MONGO_URI)
     next();
   }
 
-  
-  
-  
-  passport.use(new LocalStrategy(async (USERNAME, password, done) => {
-    // Authentication Logic
-    try{
-      console.log('recieved credentials:', USERNAME,password)
-      const user=await User.findOne({username:USERNAME})
-      /* Hum check kar rhe user model mein iss naam ka username hai ki nhi (verification) */
-      if(!user){
-        /* Agar username nhi mila toh error message return karenge */
-        /* Done ek callback function hai, aur yeh tab call karte jab authentication complete ho jaaye chaahe successfull ho ya unsucessfull*/
-        return done(null,false,{message:'Invalid Credentials'})
-      }
-      /* Agar username mil gaya toh password check karenge */
-      // password check karo ki user ka password jo hai woh jo humne pass kiya hai woh match karta hai ya nhi
-      const isPasswordMatch=user.password===password?true:false
-      if(isPasswordMatch){
-        return done(null,user)
-      }
-      else{
-        return done(null,false,{message:'Invalid Password'})
-}
-}
-catch(err){
-  return done(err)
-}
-}))
+  const localAuthMiddleware=passport.authenticate('local',{session:false})
+  app.get('/', (req,res)=>{  
+    res.send('API is running')
+  })
+  app.use(passport.initialize());
 
+  
+  
+  
 
 // Middleware
-app.use(passport.initialize());
 /* issey yeh saare routes jo bhi iss backend ke unn sabpe logging time dikhayega, cuz middleware hai */
 app.use(logRequest)
 app.use(cors());/* cors is used to handle cross-origin requests in your Express server, allowing or restricting access based on origin (domain/port). */
 app.use(express.json())
-app.use('/api/notes',notesRoutes)
-
-
-
-
-
-
+// ab /api/notes waale jitne bhi routes honge unpe hum localAuthMiddleware lagayenge basically matlab ab saaare routes mein username aur password lagega
+app.use('/api/notes',localAuthMiddleware,notesRoutes)
 
 
 
