@@ -10,7 +10,7 @@ function Header() {
                     {/* Logo/Brand*/}
                     <div className="flex-shrink-0">
                         <a href="/" className="text-2xl font-inter font-bold text-white">
-                            Notes App
+                            Think Pad
                         </a>
                     </div>
 

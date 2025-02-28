@@ -2,6 +2,7 @@ import './App.css'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Create from './components/Create'
+import Footer from './components/Footer'
 import axios from 'axios'
 import { useEffect } from 'react'
 function App() {
@@ -19,6 +20,7 @@ useEffect(()=>{
       <Header/>
       <Hero/>
       <Create/>
+      <Footer/>
     </>
   )
 }

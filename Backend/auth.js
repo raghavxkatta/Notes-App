@@ -1,4 +1,5 @@
 
+
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import User from './Models/User.js';
@@ -16,7 +17,7 @@ passport.use(new LocalStrategy(async (USERNAME, password, done) => {
         }
         /* Agar username mil gaya toh password check karenge */
         // password check karo ki user ka password jo hai woh jo humne pass kiya hai woh match karta hai ya nhi
-        const isPasswordMatch = user.password === password ? true : false
+        const isPasswordMatch =await user.comparePassword(password)   
         if (isPasswordMatch) {
             return done(null, user)
         }

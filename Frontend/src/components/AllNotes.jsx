@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import {useState,useEffect} from 'react';
 import axios from 'axios'
 
 function AllNotes(){
@@ -38,7 +38,7 @@ const handleDelete=async(id)=>{
 const startEditing=(note)=>{
     setEditingNote(note._id)
     setEditTitle(note.title)
-    setEditingContent(note.content)
+    setEditContent(note.content)
 }
 
 const handleEdit=async(id)=>{
