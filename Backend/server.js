@@ -8,8 +8,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';  
 import notesRoutes from './Routes/notes.js'
-const passport = require('passport');
-const User = require('./Models/User.js')
+import userRoutes from './Routes/user.js'
+import passport  from 'passport';
+import User from './models/User.js'
 const app=express()
 
 
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 
 /* Middleware-1 */
+app.use(passport.initialize());
 
   const logRequest = (req, res, next) => {  
     console.log(`[${new Date().toLocaleString()}] ${req.method} ${req.path}`);
@@ -30,7 +32,6 @@ mongoose.connect(process.env.MONGO_URI)
   app.get('/', (req,res)=>{  
     res.send('API is running')
   })
-  app.use(passport.initialize());
 
   
   
@@ -43,6 +44,7 @@ app.use(cors());/* cors is used to handle cross-origin requests in your Express 
 app.use(express.json())
 // ab /api/notes waale jitne bhi routes honge unpe hum localAuthMiddleware lagayenge basically matlab ab saaare routes mein username aur password lagega
 app.use('/api/notes',localAuthMiddleware,notesRoutes)
+app.use('/api/user',userRoutes)
 
 
 

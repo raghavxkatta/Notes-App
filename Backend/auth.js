@@ -2,7 +2,7 @@
 
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import User from './Models/User.js';
+import User from './models/User.js';
 
 passport.use(new LocalStrategy(async (USERNAME, password, done) => {
     // Authentication Logic
@@ -31,4 +31,4 @@ passport.use(new LocalStrategy(async (USERNAME, password, done) => {
 }))
 
 
-module.exports = passport   
+export default passport

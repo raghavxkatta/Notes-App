@@ -2,8 +2,8 @@
 // Bcrypt puts our plain password in a hash function and returns a hased password which is unrecognizable and can't be decrypted and 
 
 import { Schema, model} from 'mongoose'
-import {bcrypt} from 'bcrypt'
-import { use } from 'passport'
+import bcrypt from 'bcrypt'
+
 
 const userSchema= new Schema({
     username:{
