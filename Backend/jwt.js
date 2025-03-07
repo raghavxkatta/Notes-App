@@ -24,4 +24,14 @@ catch(err){
 }
 }
 
-export default jwtAuthMidddleware
+
+// Generate JWT Token
+const generateToken=(user)=>{
+    /* Generate a JWT token */
+    /* User ki id ko payload mein daal diya */
+    /* JWT_SECRET ko secret key ke ro
+    le mein use kiya hai */
+    return jwt.sign({id:user._id},process.env.JWT_SECRET)
+}
+
+export default {jwtAuthMidddleware,generateToken}
