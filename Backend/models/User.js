@@ -13,8 +13,20 @@ required:true
     password:{
         type:String,
         required:true
+    },
+    email:{
+        type:String,
+        required:true   
+    },
+    /* O-Auth Related Fields */
+    googleId: {
+        type: String,
+        sparse: true
+    },
+    profilePicture: {
+        type: String
     }
-});
+},{timestamps:true});
 
 userSchema.pre('save',async function(next){
 const user=this
