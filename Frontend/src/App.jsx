@@ -1,28 +1,51 @@
-import './App.css'
-import Header from './components/Header'
-import Hero from './components/Hero'
-import Create from './components/Create'
-import Footer from './components/Footer'
-import axios from 'axios'
-import { useEffect } from 'react'
-function App() {
+import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Create from './components/Create';
+import AllNotes from './components/AllNotes';
+import Footer from './components/Footer';
+import Login from './components/Login';
+import Register from './components/Register';
+import { AuthProvider } from './context/AuthContext';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from './context/AuthContext';
+import axiosInstance from './config/axiosConfig';
+
   
-useEffect(()=>{
-  /* WE DID NOT WRITE LOCALHOST BECAUSE DEPLOY KARNE KE BAAD ALAG-ALAG URL HOTA RHEGA,BUT the problem would be that this url does not exist */
-  axios.get('/api/notes')
-  .then((res)=>console.log(res))
-  .catch((err)=>console.log(err))
-}
-,[])
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const { token } = useContext(AuthContext);
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
 
+function App() {
   return (
-    <>
-      <Header/>
-      <Hero/>
-      <Create/>
-      <Footer/>
-    </>
-  )
-}
+    <AuthProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Hero />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/notes" element={
+            <ProtectedRoute>
+              <AllNotes />
+            </ProtectedRoute>
+          } />
+          <Route path="/notes/new" element={
+            <ProtectedRoute>
+              <Create />
+            </ProtectedRoute>
+          } />
+        </Routes>
+        <Footer />
+      </Router>
+    </AuthProvider>
+  );
+  }
 
-export default App
+export default App;

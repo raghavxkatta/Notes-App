@@ -1,9 +1,10 @@
 import express from 'express'
 const router=express.Router()   
 import User from '../models/User.js'
-import {jwtAuthMidddleware,generateToken} from '../jwt.js'  
+import {jwtAuthMiddleware,generateToken} from '../jwt.js'  
 
 /* Signup Route will handle user registrations and issue a JWT token upon successfull registration */
+// SIGNUP ROUTE
 router.post('/signup', async (req, res) => {
 try{
 const{username,email,password}=req.body
@@ -30,13 +31,6 @@ catch(err){
     res.status(400).json({message:'Error creating user', error:err.message})
 }})
 
-/* Function to generate a JWT token */
-const generateToken=(userData)=>{
-    /* Generate a JWT token */
-    /* User ki id ko payload mein daal diya */
-    /* JWT_SECRET ko secret key ke role mein use kiya hai */
-    return jwt.sign({id:userData._id},process.env.JWT_SECRET)
-}
 
 
 
@@ -66,9 +60,9 @@ catch(err){
 
 // PROFILE ROUTE
 // This route will be protected by JWT token
-router.get('/profile',jwtAuthMidddleware,async(req,res)=>{
+router.get('/profile',jwtAuthMiddleware,async(req,res)=>{
     try{
-        const userData=req.jwtpayload
+        const userData=req.jwtPayload
         console.log(userData)
 
         const userId=userData.id

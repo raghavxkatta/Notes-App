@@ -11,7 +11,7 @@
 import jwt from 'jsonwebtoken';
 
 /* yeh middleware function check karta hai ki incoming request valid JWT token hai ki nhi  */
-const jwtAuthMidddleware=(req,res,next)=>{
+const jwtAuthMiddleware=(req,res,next)=>{
 
     /* Checks if the request header contains the Authorization header */
     /* Agar request header mein authorization header nahi hai ya agar authorization header mein bearman se start nahi ho raha hai toh unauthorized error return karenge */
@@ -43,14 +43,13 @@ catch(err){
 }
 }
 
-
 // Generate JWT Token
 const generateToken=(user)=>{   
     /* Generate a JWT token */
     /* User ki id ko payload mein daal diya */
     /* JWT_SECRET ko secret key ke ro
     le mein use kiya hai */
-    return jwt.sign({id:user._id},process.env.JWT_SECRET)
+    return jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'5d'})
 }
 
-export default {jwtAuthMidddleware,generateToken}
+export  {jwtAuthMiddleware, generateToken}
