@@ -70,7 +70,7 @@ router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params
         const { title, content } = req.body
-        const note = await note.findById(id)
+        const note = await Note.findById(id)
 
         // Cheching if note exists
         if (!note) {
@@ -105,7 +105,7 @@ router.delete('/:id', async (req, res) => {
         }
         // Authorization check
         if (note.user && note.user.toString() !== req.jwtPayload.id) {
-            return res.status(403).json({ message: "Not authorized to update this note" });
+            return res.status(403).json({ message: "Not authorized to delete this note" });
         }
         // Now delete the note
         await Note.findByIdAndDelete(id);

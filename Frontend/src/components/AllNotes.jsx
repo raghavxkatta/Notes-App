@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axiosInstance from "../config/axiosConfig";
+import axiosInstance from "../config/AxiosInstance";
 import { Link } from "react-router-dom";
 
 function AllNotes() {

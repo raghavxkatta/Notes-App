@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
       /* Collects username and password and sends it to backend server */
       const response = await axios.post(`${API_BASE_URL}/user/login`, {
         username,
-        password
+        password,
       });
       
       const { token, user } = response.data;
@@ -61,13 +61,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Register function
-  const register = async (username, password) => {
+  const register = async (username, password,email) => {
     try {
       setIsLoading(true);
       setError(null);
       await axios.post(`${API_BASE_URL}/user/register`, {
         username,
-        password
+        password,
+        email
       });
       
       setIsLoading(false);

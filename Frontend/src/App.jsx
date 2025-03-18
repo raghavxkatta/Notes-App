@@ -16,20 +16,20 @@ import PropTypes from 'prop-types';
 // Protected Route Component
 // Protected Routes mein children ka matlab hota hai jo bhi component uske andar aayega iss time mein proetected route ke andar AllNotes component and create component andar hai
 
-const ProtectedRoute = ({ children }) => {
-  const { token } = useContext(AuthContext);
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-  return children;
-};
-
-// PropTypes definition
-ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired
-};
 
 function App() {
+  const ProtectedRoute = ({ children }) => {
+    const { token } = useContext(AuthContext);
+    if (!token) {
+      return <Navigate to="/login" replace />;
+    }
+    return children;
+  };
+  
+  // PropTypes definition
+  ProtectedRoute.propTypes = {
+    children: PropTypes.node.isRequired
+  };
   return (
     <AuthProvider>
       <Router>
