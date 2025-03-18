@@ -12,152 +12,153 @@ function Header() {
         navigate('/login');
     };
 
-    // For debugging
-    console.log("Auth state in Header:", { user, token });
+    // Redirect to login if user isn't authenticated
+    const handleProtectedClick = (e) => {
+        if (!token) {
+            e.preventDefault();
+            navigate('/login');
+        }
+    };
 
     return (
-        <nav className="bg-gradient-to-r from-purple-900 to bg-pink-900 shadow-lg backdrop-blur-lg py-3">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16">
-                <div className="h-full flex items-center justify-between">
-                    {/* Logo/Brand*/}
+        <nav className="bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 shadow-lg py-7">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                <div className="flex justify-between items-center">
+                    {/* Logo */}
                     <div className="flex-shrink-0">
-                        <Link to="/" className="text-2xl font-inter font-bold text-white">
-                            Think Pad
+                        <Link to="/" className="text-white font-semibold text-2xl hover:text-purple-300 transition duration-200">
+                            Notes App
                         </Link>
                     </div>
-
-                    {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center justify-center flex-1">
+                    
+                    {/* Center-aligned nav links - Desktop only */}
+                    <div className="hidden md:flex flex-1 justify-center items-center">
                         <div className="flex space-x-12">
-                            {token ? (
-                                <>
-                                    <Link to="/notes/new" className="px-3 py-2 rounded-md text-2xl font-medium transition duration-300 ease-in-out 
-                                                bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent 
-                                                hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 hover:bg-clip-text hover:text-transparent">
-                                        Create Note
-                                    </Link>
-                                    <Link to="/notes" className="px-3 py-2 rounded-md text-2xl font-medium transition duration-300 ease-in-out 
-                                                bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent 
-                                                hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 hover:bg-clip-text hover:text-transparent">
-                                        My Notes
-                                    </Link>
-                                </>
-                            ) : (
-                                <Link to="/" className="px-3 py-2 rounded-md text-2xl font-medium transition duration-300 ease-in-out 
-                                            bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent 
-                                            hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 hover:bg-clip-text hover:text-transparent">
-                                    Home
-                                </Link>
-                            )}
+                            {/* Home - Always accessible */}
+                            <Link 
+                                to="/" 
+                                className="text-white text-xl font-medium hover:text-purple-300 transition duration-200 transform hover:scale-105"
+                            >
+                                Home
+                            </Link>
+                            
+                            {/* Create Note - Protected, redirects if not logged in */}
+                            <Link 
+                                to="/notes/new" 
+                                className="text-white text-xl font-medium hover:text-purple-300 transition duration-200 transform hover:scale-105"
+                                onClick={handleProtectedClick}
+                            >
+                                Create Note
+                            </Link>
+                            
+                            {/* All Notes - Protected, redirects if not logged in */}
+                            <Link 
+                                to="/notes" 
+                                className="text-white text-xl font-medium hover:text-purple-300 transition duration-200 transform hover:scale-105"
+                                onClick={handleProtectedClick}
+                            >
+                                My Notes
+                            </Link>
                         </div>
                     </div>
-
+                    
                     {/* Login/Logout Button */}
                     <div className="hidden md:block">
                         {token ? (
-                            <div className="flex items-center space-x-4">
-                                <span className="text-white">{user?.username ? `Welcome, ${user.username}` : 'Welcome'}</span>
-                                <button 
+                            <div className="flex items-center space-x-5">
+                                <span className="text-purple-200 text-lg">Hi, {user?.username || 'User'}</span>
+                                <button
                                     onClick={handleLogout}
-                                    className="bg-purple-800 cursor-pointer hover:bg-purple-700 text-white px-5 py-2 rounded-lg 
-                                            font-medium transition duration-200 ease-in-out transform hover:scale-105">
+                                    className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 
+                                            text-white font-semibold px-6 py-3 rounded-lg shadow-md transition duration-200 
+                                            transform hover:scale-105 hover:shadow-lg"
+                                >
                                     Logout
                                 </button>
                             </div>
                         ) : (
-                            <Link to="/login" className="bg-purple-800 cursor-pointer hover:bg-purple-700 text-white px-5 py-2 rounded-lg 
-                                            font-medium transition duration-200 ease-in-out transform hover:scale-105">
-                                Login/Register
+                            <Link 
+                                to="/login" 
+                                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 
+                                        text-white font-semibold px-6 py-3 rounded-lg shadow-md transition duration-200 
+                                        transform hover:scale-105 hover:shadow-lg"
+                            >
+                                Login / Register
                             </Link>
                         )}
                     </div>
-
+                    
                     {/* Mobile menu button */}
                     <div className="md:hidden">
-                        <button
+                        <button 
                             onClick={() => setIsOpen(!isOpen)}
-                            className="text-purple-100 hover:text-white p-2 cursor-pointer"
+                            className="text-white p-2 rounded-md hover:bg-purple-800 focus:outline-none focus:bg-purple-800 transition duration-200"
+                            aria-label="Toggle menu"
                         >
-                            <svg
-                                className="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
+                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 {isOpen ? (
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                 ) : (
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                 )}
                             </svg>
                         </button>
                     </div>
                 </div>
-            </div>
-
-            {/* Mobile menu */}
-            {isOpen && (
-                <div className="md:hidden bg-purple-900/95 backdrop-blur-lg">
-                    <div className="px-2 pt-2 pb-3 space-y-6 transition-all">
+                
+                {/* Mobile Menu */}
+                {isOpen && (
+                    <div className="md:hidden mt-4 pb-4 space-y-2">
+                        <Link 
+                            to="/" 
+                            className="block text-lg text-white hover:bg-purple-700 px-4 py-3 rounded-md transition duration-200"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Home
+                        </Link>
+                        <Link 
+                            to="/notes/new" 
+                            className="block text-lg text-white hover:bg-purple-700 px-4 py-3 rounded-md transition duration-200"
+                            onClick={(e) => {
+                                setIsOpen(false);
+                                handleProtectedClick(e);
+                            }}
+                        >
+                            Create Note
+                        </Link>
+                        <Link 
+                            to="/notes" 
+                            className="block text-lg text-white hover:bg-purple-700 px-4 py-3 rounded-md transition duration-200"
+                            onClick={(e) => {
+                                setIsOpen(false);
+                                handleProtectedClick(e);
+                            }}
+                        >
+                            My Notes
+                        </Link>
+                        
                         {token ? (
-                            <>
-                                <Link
-                                    to="/notes/new"
-                                    className="block text-purple-100 hover:text-white px-3 py-2 rounded-md text-base font-medium hover:bg-purple-600"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Create Note
-                                </Link>
-                                <Link
-                                    to="/notes"
-                                    className="block text-purple-100 hover:text-white px-3 py-2 rounded-md text-base font-medium hover:bg-purple-600"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    My Notes
-                                </Link>
-                                <button 
-                                    onClick={() => {
-                                        handleLogout();
-                                        setIsOpen(false);
-                                    }}
-                                    className="w-full text-center bg-purple-600 cursor-pointer hover:scale-105 hover:bg-purple-700 text-white px-3 max-w-4xs 
-                                            py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
-                                >
-                                    Logout
-                                </button>
-                            </>
+                            <button
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    handleLogout();
+                                }}
+                                className="w-full text-left block text-lg text-white hover:bg-purple-700 px-4 py-3 rounded-md transition duration-200"
+                            >
+                                Logout
+                            </button>
                         ) : (
-                            <>
-                                <Link
-                                    to="/"
-                                    className="block text-purple-100 hover:text-white px-3 py-2 rounded-md text-base font-medium hover:bg-purple-600"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Home
-                                </Link>
-                                <Link
-                                    to="/login"
-                                    className="w-full text-center bg-purple-600 cursor-pointer hover:scale-105 hover:bg-purple-700 text-white px-3 max-w-4xs 
-                                            py-2 rounded-md text-base font-medium transition duration-150 ease-in-out"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Login
-                                </Link>
-                            </>
+                            <Link 
+                                to="/login" 
+                                className="block text-lg text-white bg-purple-700 hover:bg-purple-600 px-4 py-3 rounded-md transition duration-200 text-center shadow-md"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                Login / Register
+                            </Link>
                         )}
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </nav>
     );
 }

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Hero = () => {
@@ -74,77 +74,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-purple-950 py-16">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div>
-              <h3 className="text-white text-lg font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li><Link to="/" className="text-purple-300 hover:text-white">Home</Link></li>
-                <li>
-                  <Link 
-                    to={token ? "/notes/new" : "/login"}
-                    className="text-purple-300 hover:text-white"
-                    onClick={(e) => !token && navigate('/login')}
-                  >
-                    Create Note
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    to={token ? "/notes" : "/login"}
-                    className="text-purple-300 hover:text-white"
-                    onClick={(e) => !token && navigate('/login')}
-                  >
-                    All Notes
-                  </Link>
-                </li>
-                <li><Link to="/login" className="text-purple-300 hover:text-white">Login</Link></li>
-                <li><Link to="/register" className="text-purple-300 hover:text-white">Register</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-white text-lg font-semibold mb-4">Resources</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-purple-300 hover:text-white">Documentation</a></li>
-                <li><a href="#" className="text-purple-300 hover:text-white">API References</a></li>
-                <li><a href="#" className="text-purple-300 hover:text-white">Support</a></li>
-                <li><a href="#" className="text-purple-300 hover:text-white">Privacy Policy</a></li>
-                <li><a href="#" className="text-purple-300 hover:text-white">Terms of Service</a></li>
-              </ul>
-            </div>
-            
-            <div className="md:col-span-2">
-              <h3 className="text-white text-lg font-semibold mb-4">Stay Updated</h3>
-              <p className="text-purple-300 mb-4">Subscribe to our newsletter for tips and updates.</p>
-              <form className="flex">
-                <input 
-                  type="email" 
-                  placeholder="Your email address" 
-                  className="px-4 py-2 rounded-l-lg bg-white/10 border-purple-300/30 text-white w-full focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <button 
-                  type="submit" 
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-r-lg"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
-          </div>
-          
-          <div className="border-t border-purple-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-purple-300">© 2025 Notes App. All rights reserved.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-purple-300 hover:text-white">Privacy</a>
-              <a href="#" className="text-purple-300 hover:text-white">Terms</a>
-              <a href="#" className="text-purple-300 hover:text-white">Cookies</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+    
     </div>
   );
 };
