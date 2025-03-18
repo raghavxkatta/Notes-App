@@ -5,7 +5,7 @@ import {jwtAuthMiddleware,generateToken} from '../jwt.js'
 
 /* Signup Route will handle user registrations and issue a JWT token upon successfull registration */
 // SIGNUP ROUTE
-router.post('/signup', async (req, res) => {
+router.post('/register', async (req, res) => {
 try{
 const{username,email,password}=req.body
 const newUser=new User({username,email,password})

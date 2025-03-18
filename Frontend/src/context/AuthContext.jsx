@@ -1,6 +1,7 @@
-import React, { createContext, useState, useEffect } from 'react';
+import  { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import API_BASE_URL from '../config/apiConfig';
+import PropTypes from 'prop-types';
 
 export const AuthContext = createContext();
 
@@ -64,8 +65,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setIsLoading(true);
       setError(null);
-      
-      const response = await axios.post(`${API_BASE_URL}/user/register`, {
+      await axios.post(`${API_BASE_URL}/user/register`, {
         username,
         password
       });
@@ -101,4 +101,7 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired
 };
