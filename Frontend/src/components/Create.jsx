@@ -1,6 +1,6 @@
-// Create.jsx
 import { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
+import { useNavigate } from 'react-router-dom';
 
 function Create() {
     const [title, setTitle] = useState('');
@@ -8,6 +8,7 @@ function Create() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,15 +22,17 @@ function Create() {
         setSuccess(false);
 
         try {
-            const response = await axios.post('http://localhost:5000/api/notes', {
+            const response = await axiosInstance.post('/notes', {
                 title: title.trim(),
                 content: content.trim()
             });
             
             if (response.status === 201) {
                 setSuccess('Note created successfully!');
-                setTitle('');
-                setContent('');
+                // Redirect to notes list after short delay
+                setTimeout(() => {
+                    navigate('/notes');
+                }, 1500);
             }
         } catch (err) {
             setError(err.response?.data?.error || 'Failed to create note. Please try again.');
